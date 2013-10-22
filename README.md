@@ -1,7 +1,7 @@
-activitylog
+expenselogger
 ===========
 
-A simple site for posting activities.
+A simple site for submitting expenses.
 
 ###Setup
 
