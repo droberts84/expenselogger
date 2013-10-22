@@ -1,0 +1,18 @@
+{% extends "expenselogger/main.html" %}
+
+{% block content %}
+<h2>Submit New Expense</h2>
+<form>
+{% csrf_token %}
+
+<div class="input-group">
+    <label for="expense_name">Name</label>: <input type="text" class="form-control" name="expense_name"/>
+    <input type="submit" id="submit_expense" value="Submit" class="form-control" />
+</div>
+</form>
+
+<h2>Recently Submitted Expenses</h2>
+<ul>
+<!-- implement me -->
+</ul>
+{% endblock %}
