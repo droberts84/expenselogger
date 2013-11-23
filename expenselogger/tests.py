@@ -43,7 +43,7 @@ class ExpenseViewsTestCase(TestCase):
 
 		# test that expense data is availible and appropriately ordered by date
 		self.assertTrue('expense_list' in resp.context)
-		self.assertEqual(resp.context['expense_list'], 
+		self.assertQuerysetEqual(resp.context['expense_list'], 
 			['<Expense: Expense 1>', '<Expense: Expense 2>', '<Expense: Expense 3>', 
 			'<Expense: Expense 4>'])
 

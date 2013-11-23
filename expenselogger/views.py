@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from expenselogger.forms import ExpenseForm
 
 def index(request):
-    expsense_list = []  #implement me
+    expsense_list = Expense.objects.all().order_by('-date')
     form = ExpenseForm()
     context = {'expense_list': expsense_list, 'form': form}
     
