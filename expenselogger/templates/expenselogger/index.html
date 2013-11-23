@@ -4,12 +4,14 @@
 <h2>Submit New Expense</h2>
 
 
-<form action="{% url ’polls:vote’ poll.id %}" method="post">
+<form action="/create/" method="post">
 {% csrf_token %}
-<div class="input-group">
+<!-- <div class="input-group">
     <label for="expense_name">Name</label>: <input type="text" class="form-control" name="expense_name"/>
     <input type="submit" id="submit_expense" value="Submit" class="form-control" />
-</div>
+</div> -->
+{{ form.as_p }}
+<input type="submit" value="Submit" />
 </form>
 
 <h2>Recently Submitted Expenses</h2>
