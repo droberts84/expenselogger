@@ -3,10 +3,11 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from expenselogger.forms import ExpenseForm
 
+
 def index(request):
-    expsense_list = Expense.objects.all().order_by('-date')
+    expense_list = Expense.objects.all().order_by('-date')
     form = ExpenseForm()
-    context = {'expense_list': expsense_list, 'form': form}
+    context = {'expense_list': expense_list, 'form': form}
     
     return render(request, 'expenselogger/index.html', context)
     
@@ -19,4 +20,3 @@ def create_expense(request):
 	else:
 		#redisplay with error
 		return render(request, 'expenselogger/index.html', {'form': form,})
-		

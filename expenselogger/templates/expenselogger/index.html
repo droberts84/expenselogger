@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Submit New Expense</h2>
-
+{% load jsonify %}
 
 <form id="expenseform" action="/create/" method="post" class="form-horizontal" >
     {% csrf_token %}
@@ -23,6 +23,32 @@
 
 <!-- confirm expense submissions -->
 <script>
+    
+</script>
+
+
+<h2>Recently Submitted Expenses</h2>
+
+<table class="table table-hover">
+    <thead>
+        <!-- header row -->
+        <th>Date</th>
+        <th>Expense Name</th>
+        <th>Type</th>
+        <th>Amount</th>
+    </thead>
+    {% for expense in expense_list %}
+        <tr id="expense_{{ forloop.counter }}" class="expense">
+            <td class="expense_date">{{ expense.date }}</td>
+            <td class="expense_name">{{ expense.name }}</td>
+            <td class="expense_type">{{ expense.get_expense_type_display }}</td>
+            <td class="expense_amount">{{ expense.amount|floatformat:"2" }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<script>
+    // confirm form submissions
     $( '#expenseform' ).submit(function( event ) {
 
         var currentForm = this;
@@ -34,27 +60,24 @@
         });
         event.preventDefault();
     });
+
+    // add expenses when clicked
+    $( '.expense').click(function( event ){
+        // get the ordered id the expense clicked - NOT primary key
+        var currentId = $(this).attr('id').match(/\d+$/);
+
+        // retrieve all expenses and find the current clicked
+        var all_expenses = {{ expense_list|jsonify }};
+        var expense = all_expenses[currentId - 1]['fields'];
+
+
+        // set the value of each form attribute to the matching expense
+        $( "#id_name" ).attr('value', expense['name']);
+        $( "#id_expense_type" ).val(expense['expense_type']);
+        $( "#id_amount" ).val(expense['amount']);
+        $( "#id_date" ).val(expense['date']);
+
+    });
 </script>
-
-
-<h2>Recently Submitted Expenses</h2>
-
-<table class="table">
-    <tr>
-        <!-- header row -->
-        <th>Date</th>
-        <th>Expense Name</th>
-        <th>Type</th>
-        <th>Amount</th>
-    </tr>
-    {% for expense in expense_list %}
-        <tr>
-            <td>{{ expense.date }}</td>
-            <td>{{ expense.name }}</td>
-            <td>{{ expense.get_expense_type_display }}</td>
-            <td>{{ expense.amount|floatformat:"2" }}</td>
-        </tr>
-    {% endfor %}
-</table>
 
 {% endblock %}
