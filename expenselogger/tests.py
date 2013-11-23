@@ -17,6 +17,13 @@ class ExpenseViewsTestCase(TestCase):
 		self.assertEqual(resp.status_code, 200)
 		self.assertTrue('Expense Logger' in resp.content)
 
+		# form fields appear
+		self.assertTrue('Name' in resp.content)
+		self.assertTrue('Expense type' in resp.content)
+		self.assertTrue('Amount' in resp.content)
+		self.assertTrue('Date' in resp.content)
+
+
 
 	# expenses can be submitted through POST action
 	def test_good_expense_submission(self):
@@ -70,3 +77,4 @@ class ExpenseViewsTestCase(TestCase):
 													'amount': 123.45})
 		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(resp.context['form'].errors['date'], [u'This field is required.'])
+
