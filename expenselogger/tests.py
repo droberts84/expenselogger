@@ -16,6 +16,8 @@ class ExpenseViewsTestCase(TestCase):
 		self.assertEqual(resp.status_code, 200)
 		self.assertTrue('Expense Logger' in resp.content)
 
+
+	# expenses can be submitted through POST action
 	def test_good_expense_submission(self):
 
 		resp = self.client.post(reverse('create'), {'name': 'Flight to ORD',
@@ -33,12 +35,16 @@ class ExpenseViewsTestCase(TestCase):
 		self.assertTrue('Expense Logger' in resp.content)
 
 
-	# assume all fields required
+	"""
+	Test validations on expnese submissions
+	- Assuming all fields are required
+	- Further validations should checked for blanks, etc
+	"""
 	def test_bad_expense_submissions(self):
          # Send no POST data.
 		resp = self.client.post(reverse('create'))
 		self.assertEqual(resp.status_code, 200)
-		self.assertEqual(resp.context['error_message'], "You didn't select a choice.")
+		self.assertEqual(resp.context['error_message'], "Please specify a name for the expense.")
 
 		# Send no name
 		resp = self.client.post(reverse('create'), {'expense_type': 'F',

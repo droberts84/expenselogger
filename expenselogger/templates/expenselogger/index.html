@@ -2,9 +2,10 @@
 
 {% block content %}
 <h2>Submit New Expense</h2>
-<form>
-{% csrf_token %}
 
+
+<form action="{% url ’polls:vote’ poll.id %}" method="post">
+{% csrf_token %}
 <div class="input-group">
     <label for="expense_name">Name</label>: <input type="text" class="form-control" name="expense_name"/>
     <input type="submit" id="submit_expense" value="Submit" class="form-control" />
