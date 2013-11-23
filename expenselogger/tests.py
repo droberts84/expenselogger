@@ -33,6 +33,37 @@ class ExpenseViewsTestCase(TestCase):
 		self.assertTrue('Expense Logger' in resp.content)
 
 
-	#def test_bad_expense_submissions(self):
-        # what validation is required??
-        # are all fields required?
+	# assume all fields required
+	def test_bad_expense_submissions(self):
+         # Send no POST data.
+		resp = self.client.post(reverse('create'))
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.context['error_message'], "You didn't select a choice.")
+
+		# Send no name
+		resp = self.client.post(reverse('create'), {'expense_type': 'F',
+													'amount': 123.45,
+													'date': timezone.now(),})
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.context['error_message'], "Please specify a name for the expense.")
+
+		# No expense type specified
+		resp = self.client.post(reverse('create'), {'name': 'Flight to ORD',
+													'amount': 123.45,
+													'date': timezone.now(),})
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.context['error_message'], "Please specify a an expense type.")
+
+		# No amount specified
+		resp = self.client.post(reverse('create'), {'name': 'Flight to ORD',
+													'expense_type': 'F',
+													'date': timezone.now(),})
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.context['error_message'], "Please specify an amount for your expense")
+
+		# No amount specified
+		resp = self.client.post(reverse('create'), {'name': 'Flight to ORD',
+													'expense_type': 'F',
+													'amount': 123.45})
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.context['error_message'], "Please specify an amount for your expense")
