@@ -9,8 +9,19 @@ from decimal import *
 from expenselogger.models import Expense #import model
 
 
+"""
+Creates an Expense based on passed parameters
+days is an offset for date to set date relative to now
+(negative for in the past, positive for in the future)
+"""
+def create_test_expense(name, e_type, amount, days):
+	return Expense.objects.create(name=name, expense_type=e_type, amount=amount, 
+			date=datetime.date.today() + datetime.timedelta(days=days))
+
+
 class ExpenseViewsTestCase(TestCase):
      
+	
 	def test_index(self):
 		# test that url works
 		resp = self.client.get(reverse('index'))
@@ -22,6 +33,25 @@ class ExpenseViewsTestCase(TestCase):
 		self.assertTrue('Expense type' in resp.content)
 		self.assertTrue('Amount' in resp.content)
 		self.assertTrue('Date' in resp.content)
+
+		
+		# create test data (ideally should use fixtures)
+		e3 = create_test_expense('Expense 3', 'H', 593.25, -15)
+		e4 = create_test_expense('Expense 4', 'F', 400, -25)
+		e2 = create_test_expense('Expense 2', 'C', 183.20, -5)
+		e1 = create_test_expense('Expense 1', 'F', 200.00, -1)
+
+		# test that expense data is availible and appropriately ordered by date
+		self.assertTrue('expense_list' in resp.context)
+		self.assertEqual(resp.context['expense_list'], 
+			['<Expense: Expense 1>', '<Expense: Expense 2>', '<Expense: Expense 3>', 
+			'<Expense: Expense 4>'])
+
+		# make sure that the template renders the expense attributes
+		self.assertTrue(e1.name in resp.content)
+		self.assertTrue('Flight' in resp.content)
+		self.assertTrue(e1.amount in resp.content)
+		self.assertTrue(e1.date in resp.content)
 
 
 
@@ -77,4 +107,6 @@ class ExpenseViewsTestCase(TestCase):
 													'amount': 123.45})
 		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(resp.context['form'].errors['date'], [u'This field is required.'])
+
+	
 

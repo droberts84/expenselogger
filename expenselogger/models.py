@@ -13,3 +13,7 @@ class Expense(models.Model):
 	amount = models.DecimalField(max_digits=5, decimal_places=2)
 	date = models.DateField()
 
+	# string representation as expense name
+	def __unicode__(self):
+		return self.name
+
