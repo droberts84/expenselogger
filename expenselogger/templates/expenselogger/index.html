@@ -6,10 +6,6 @@
 
 <form action="/create/" method="post" class="form-horizontal">
 {% csrf_token %}
-<!-- <div class="input-group">
-    <label for="expense_name">Name</label>: <input type="text" class="form-control" name="expense_name"/>
-    <input type="submit" id="submit_expense" value="Submit" class="form-control" />
-</div> -->
 {% for field in form %}
     <div class="form_group row">
         {{ field.errors }}
@@ -21,11 +17,27 @@
    		</div>
     </div>
 {% endfor %}
-<input type="submit" value="Submit" class="btn btn-default" />
+<button type="submit" value="Submit" class="btn btn-default">Submit</button>
 </form>
 
 <h2>Recently Submitted Expenses</h2>
-<ul>
-<!-- implement me -->
-</ul>
+
+<table class="table">
+    <tr>
+        <!-- header row -->
+        <th>Date</th>
+        <th>Expense Name</th>
+        <th>Type</th>
+        <th>Amount</th>
+    </tr>
+    {% for expense in expense_list %}
+        <tr>
+            <td>{{ expense.date }}</td>
+            <td>{{ expense.name }}</td>
+            <td>{{ expense.get_expense_type_display }}</td>
+            <td>{{ expense.amount|floatformat:"2" }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}

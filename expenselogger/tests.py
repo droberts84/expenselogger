@@ -23,6 +23,12 @@ class ExpenseViewsTestCase(TestCase):
      
 	
 	def test_index(self):
+		# create test data (ideally should use fixtures)
+		e3 = create_test_expense('Expense 3', 'H', 593.25, -15)
+		e4 = create_test_expense('Expense 4', 'F', 400, -25)
+		e2 = create_test_expense('Expense 2', 'C', 183.20, -5)
+		e1 = create_test_expense('Expense 1', 'F', 200.00, -1)
+
 		# test that url works
 		resp = self.client.get(reverse('index'))
 		self.assertEqual(resp.status_code, 200)
@@ -34,12 +40,6 @@ class ExpenseViewsTestCase(TestCase):
 		self.assertTrue('Amount' in resp.content)
 		self.assertTrue('Date' in resp.content)
 
-		
-		# create test data (ideally should use fixtures)
-		e3 = create_test_expense('Expense 3', 'H', 593.25, -15)
-		e4 = create_test_expense('Expense 4', 'F', 400, -25)
-		e2 = create_test_expense('Expense 2', 'C', 183.20, -5)
-		e1 = create_test_expense('Expense 1', 'F', 200.00, -1)
 
 		# test that expense data is availible and appropriately ordered by date
 		self.assertTrue('expense_list' in resp.context)
@@ -50,8 +50,8 @@ class ExpenseViewsTestCase(TestCase):
 		# make sure that the template renders the expense attributes
 		self.assertTrue(e1.name in resp.content)
 		self.assertTrue('Flight' in resp.content)
-		self.assertTrue(e1.amount in resp.content)
-		self.assertTrue(e1.date in resp.content)
+		self.assertTrue('200.00' in resp.content)
+
 
 
 
