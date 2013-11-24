@@ -5,22 +5,14 @@ from expenselogger.forms import ExpenseForm
 from django.core import serializers
 
 
+
 def index(request):
-    expense_list = Expense.objects.all().order_by('-date')
-    form = ExpenseForm()
-    
-    """
-    serialize ALL expenses JSON to support submitting similar expenses in javascript
-    
-    All expenses are converted to prevent live remote call to get single expense
-    from database upon user click event.
-    If volume of expenses is high, this should be revaluated
-    """
-    json_expenses = serializers.serialize('json', expense_list);
 
-    
+    # get context for all expenses from helper
+    context = all_expense_context_helper()
 
-    context = {'expense_list': expense_list, 'form': form, 'json_expenses': json_expenses}
+    # add blank form
+    context['form'] = ExpenseForm()
     
     return render(request, 'expenselogger/index.html', context)
     
@@ -31,5 +23,28 @@ def create_expense(request):
 		expense = form.save()
 		return HttpResponseRedirect('/')
 	else:
+		# get context of all expenses to support list below form
+		context = all_expense_context_helper()
+		# add form
+		context['form'] = form
+
 		#redisplay with error
-		return render(request, 'expenselogger/index.html', {'form': form,})
+		return render(request, 'expenselogger/index.html', context)
+
+
+# helper function to get context for all expenses
+def all_expense_context_helper():
+	expense_list = Expense.objects.all().order_by('-date')
+
+	"""
+	serialize ALL expenses JSON to support submitting similar expenses in javascript
+
+	All expenses are converted to prevent live remote call to get single expense
+	from database upon user click event.
+	If volume of expenses is high, this should be revaluated
+	"""
+	json_expenses = serializers.serialize('json', expense_list);
+
+	return {'expense_list': expense_list, 'json_expenses': json_expenses}
+
+
