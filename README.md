@@ -8,10 +8,10 @@ A simple site for submitting expenses.
 - All fields are required
 - Expense Name or Date is not unique
 - No additional validations are defined, as long as something is present
-- Number of expenses will be extremely low
+- Number of expenses will be low
 - Expense should be highlighted when a user hovers, to indicate it is clickable
 - All expenses will be entered in USD
-- Expense amount will always be $100,000 
+- Expense amount will always be under $100,000 
 
 ###Setup
 - pip install Django
