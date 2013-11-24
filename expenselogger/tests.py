@@ -102,11 +102,16 @@ class ExpenseViewsTestCase(TestCase):
 		self.assertEqual(resp.context['form'].errors['amount'], [u'This field is required.'])
 
 		# No date specified
+		e1 = create_test_expense('Expense 1', 'F', 200.00, -1)
 		resp = self.client.post(reverse('create'), {'name': 'Flight to ORD',
 													'expense_type': 'F',
 													'amount': 123.45})
 		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(resp.context['form'].errors['date'], [u'This field is required.'])
+		# after error other expenses should appear on page
+		self.assertTrue(e1.name in resp.content)
+		self.assertTrue('Flight' in resp.content)
+		self.assertTrue('200.00' in resp.content)
 
 	
 
