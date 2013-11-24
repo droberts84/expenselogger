@@ -3,12 +3,6 @@ expenselogger
 
 A simple site for submitting expenses.
 
-###Setup
-
-- pip install Django
-- python manage.py syncdb
-- python manage.py runserver
-- browse to http://localhost:8000
 
 ###Assumptions
 - All fields are required
@@ -18,3 +12,13 @@ A simple site for submitting expenses.
 - Expense should be highlighted when a user hovers, to indicate it is clickable
 - All expenses will be entered in USD
 - Expense amount will always be $100,000 
+
+###Setup
+- pip install Django
+- python manage.py syncdb
+- python manage.py runserver
+- browse to http://localhost:8000
+
+###Dependencies
+- Tested using Python 2.7.5 and Django 1.6
+- Uses Bootstrap 3.00 and JQuery 1.10 (included)
