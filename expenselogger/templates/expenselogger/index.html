@@ -44,6 +44,14 @@
 </table>
 
 <script>
+    {% comment %}
+    convert all expenses from django model to JSON to support submitting similar
+    expenses in javascript
+    
+    All expenses are converted to prevent a new remote call to get single expense
+    from database.
+    If volume of expenses is high, this should be revaluated
+    {% endcomment %}
     var all_expenses = {{ expense_list|jsonify}};
 </script>
 

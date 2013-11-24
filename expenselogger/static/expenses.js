@@ -16,7 +16,8 @@ $( '.expense').click(function( event ){
     // get the ordered id the expense clicked - NOT primary key
     var currentId = $(this).attr('id').match(/\d+$/);
 
-    // retrieve all expenses and find the current clicked
+    // find current expense clicked from list of all expenses
+    // must subtract 1 to convert to 0 based indexing
     // (all expenses is defined in the footer of index.html)
     var expense = all_expenses[currentId - 1]['fields'];
 
