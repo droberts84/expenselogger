@@ -9,8 +9,9 @@
     <script type="text/javascript" src="{% static 'bootbox.min.js' %}"></script> 
 </head>
 <body>
-<h1><a href="{% url 'index' %}">Expense Logger</a></h1>
-{% block content %}
-{% endblock %}
+	<h1><a href="{% url 'index' %}">Expense Logger</a></h1>
+	{% block content %}
+	{% endblock %}
+	<script type="text/javascript" src="{% static 'expenses.js' %}"></script> 
 </body>
 </html>
