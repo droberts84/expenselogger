@@ -1,4 +1,5 @@
 from django.db import models
+from django.core import serializers
 
 class Expense(models.Model):
 	# choices for expense type fields
@@ -16,4 +17,7 @@ class Expense(models.Model):
 	# string representation as expense name
 	def __unicode__(self):
 		return self.name
+
+	def to_json(self):
+		return serializers.serialize('json', [self]);
 

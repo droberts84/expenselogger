@@ -33,7 +33,8 @@
         <th>Amount</th>
     </thead>
     {% for expense in expense_list %}
-        <tr id="expense_{{ forloop.counter }}" class="expense">
+        <tr id="expense_{{ forloop.counter }}" class="expense" 
+                data-expense='{{ expense.to_json|safe }}' >
             <td class="expense_date">{{ expense.date }}</td>
             <td class="expense_name">{{ expense.name }}</td>
             <td class="expense_type">{{ expense.get_expense_type_display }}</td>
@@ -41,10 +42,5 @@
         </tr>
     {% endfor %}
 </table>
-
-<script>
-    // used in expenses.js
-    var all_expenses = {{ json_expenses|safe }}
-</script>
 
 {% endblock %}
